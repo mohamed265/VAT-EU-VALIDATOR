@@ -12,27 +12,35 @@ import com.mohamed265.toggltest.type.CheckVATResponse;
 public class App {
 
 	public static void main(String[] args) {
+		try {
+			if (args.length == 0) {
+				System.out.println("No args found");
+			} else {
 
-		if (args.length == 0) {
-			System.out.println("No args found");
-		} else {
+				String countryCodeStr = args[0].substring(0, 2);
+				String vatNumberStr = args[0].substring(2);
 
-			String countryCodeStr = args[0].substring(0, 2);
-			String vatNumberStr = args[0].substring(2);
+				System.out.println("Country Code is: " + countryCodeStr);
+				System.out.println("VAT Number Code is: " + vatNumberStr);
 
-			System.out.println("Country Code is: " + countryCodeStr);
-			System.out.println("VAT Number Code is: " + vatNumberStr);
-
-			CheckVATResponse checkVATResponse = validateVATnumber(
-					countryCodeStr, vatNumberStr);
-			System.out.println("\tValid: " + checkVATResponse.isValid());
-			System.out.println("\tName: " + checkVATResponse.getName());
-			System.out.println("\tAddress: "
-					+ checkVATResponse.getAddress().replace('\n', ' '));
-			System.out.println("\tRequest Date: "
-					+ checkVATResponse.getRequestDate());
+				CheckVATResponse checkVATResponse = validateVATnumber(
+						countryCodeStr, vatNumberStr);
+				if (checkVATResponse.isValid()) {
+					System.out.println("Valid");
+					System.out
+							.println("\tValid: " + checkVATResponse.isValid());
+					System.out.println("\tName: " + checkVATResponse.getName());
+					System.out.println("\tAddress: "
+							+ checkVATResponse.getAddress().replace('\n', ' '));
+					System.out.println("\tRequest Date: "
+							+ checkVATResponse.getRequestDate());
+				} else {
+					System.out.println("Invalid");
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("exception/error");
 		}
-
 	}
 
 	static CheckVatService checkVatService = new CheckVatService();
